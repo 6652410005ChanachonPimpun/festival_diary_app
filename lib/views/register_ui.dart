@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:festival_diary_app/service/user_api.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -182,7 +183,7 @@ class _RegisterUiState extends State<RegisterUi> {
                     height: 40.0,
                   ),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       ///ส่งข้อมูลไปบันทึกที่ database ผ่าน api
                       //validate UI
                       if (userFullnameCtrl.text.trim().isEmpty) {
@@ -198,6 +199,9 @@ class _RegisterUiState extends State<RegisterUi> {
                           userName: userNameCtrl.text.trim(),
                           userPassword: userPasswordCtrl.text.trim(),
                         );
+                        await UserApi()
+                            .RegisterUser(user, userFile!)
+                            .then((value) {});
                       }
                     },
                     child: Text(
